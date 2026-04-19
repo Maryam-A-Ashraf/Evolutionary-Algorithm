@@ -21,17 +21,13 @@ def repair_constraints(position, available, num_regions, num_resources):
 def fitness_function(position, scenario):
     allocation = position.reshape(scenario.num_regions, scenario.num_resources)
 
-    # -------------------------
     # 1. Shortage (HARD GOAL)
-    # -------------------------
     shortage = np.sum(np.maximum(0, scenario.demands - allocation))
 
     max_shortage = np.sum(scenario.demands)
     shortage_norm = shortage / (max_shortage + 1e-6)
 
-    # -------------------------
     # 2. Transport Cost
-    # -------------------------
     distances = np.linalg.norm(
         scenario.regions_coords - scenario.warehouse_coord,
         axis=1
