@@ -61,8 +61,9 @@ class Particle:
     - pBest: best solution found by this particle
     """
 
-    def __init__(self, dimension: int):
-        self.dimension = dimension
+    def __init__(self, scenario):
+        self.scenario=scenario
+        self.dimension = scenario.dimension
         # Initialize Position & Velocity
         self.position = self._initialize_position()
         self.velocity = self._initialize_velocity()
@@ -77,11 +78,12 @@ class Particle:
     # Initialization Methods
     def _initialize_position(self) -> np.ndarray:
         """Initialize particle position randomly."""
-        return np.random.uniform(0, 20, self.dimension)
+        avg_demand=np.mean(self.scenario.demands)
+        return np.random.uniform(0, avg_demand*1.5, self.dimension)
 
     def _initialize_velocity(self) -> np.ndarray:
         """Initialize particle velocity randomly."""
-        return np.random.uniform(-1, 1, self.dimension)
+        return np.random.uniform(-0.1, 0.1, self.dimension)
 
     # Utility Methods
     def update_personal_best(self):
